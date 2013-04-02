@@ -2,6 +2,9 @@
 #define PARTICLE_SYSTEM_H_INCLUDED
 
 #include <vector>
+#include <fstream>
+// debug
+#include <iostream>
 
 #include "openGL_headers.h"
 #include "math_headers.h"
@@ -48,6 +51,8 @@ public:
 	static float nSlice;
 	static float nStack;
 	static float radius;
+
+	void outputCenter(int& i_frame, char* s_file);
 
 private:
 	void initParticles(int number);

@@ -21,7 +21,7 @@ particle::particle(glm::vec3 position){
 		pos = position;
 		vel = glm::vec3(0.0);
 
-		rest_density = 1000.f;
+		rest_density = 100.f;
 		actual_density = rest_density;
 
 		viscosity_coef = 10.f;
@@ -289,7 +289,6 @@ void particleSystem::Draw(const VBO& vbos){
 	LeapfrogIntegrate(0.01f);
 	
 	int index;
-
 	for (std::vector<particle>::iterator it = particles.begin() ; it != particles.end(); ++it){
 
 		for(int i = 0; i < nStack; i++)
@@ -396,4 +395,26 @@ void particleSystem::drawWireGrid()
    glPopAttrib();
 
    glEnd();
+}
+void particleSystem::outputCenter(int& i_frame, char* s_file)
+{
+	std::ofstream io_out;
+	if(i_frame == 0)
+		io_out.open(s_file, std::ios::ate);
+	else
+		io_out.open(s_file, std::ios::app);
+	io_out<<i_frame<<" ";
+	glm::vec3 center = glm::vec3(0.0,0.0,0.0);
+	int n = 0;
+	std::cout<<particles.size();
+	for (std::vector<particle>::iterator it = particles.begin() ; it != particles.end(); ++it)
+	{
+		center = it->pos;
+		io_out<<center.x<<" "<<center.y<<" "<<center.z<<" ";
+		n++;
+		if(n > 3)
+			break;
+	}
+	io_out<<std::endl;
+	i_frame++;
 }
